@@ -18,6 +18,15 @@ public class Dog {
 
     }
 
+    public Dog(String name, long microchip, String sex, boolean deSexed, int age, String breed) {
+        this.name = name;
+        this.microchip = microchip;
+        this.sex = sex;
+        this.deSexed = deSexed;
+        this.age = age;
+        this.breed = breed;
+    }
+
     /**
      * Getter for name
      * @return name

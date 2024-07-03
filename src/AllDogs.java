@@ -3,7 +3,7 @@ import java.util.Set;
 
 public class AllDogs {
 
-    Set<Dog> allDogs;
+    Set<Dog> allDogs = new HashSet<>();
 
     public void addDog(Dog dog){
         allDogs.add(dog);
@@ -27,4 +27,5 @@ public class AllDogs {
         }
         return matchedDogs;
     }
+
 }
