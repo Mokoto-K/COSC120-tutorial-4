@@ -18,9 +18,32 @@ public class Dog {
 
     }
 
+    /**
+     * Constructor mainly used for reading in dog data and displaying requested results
+     * @param name
+     * @param microchip
+     * @param sex
+     * @param deSexed
+     * @param age
+     * @param breed
+     */
     public Dog(String name, long microchip, String sex, boolean deSexed, int age, String breed) {
         this.name = name;
         this.microchip = microchip;
+        this.sex = sex;
+        this.deSexed = deSexed;
+        this.age = age;
+        this.breed = breed;
+    }
+
+    /**
+     * Contructor used for users dream dog input
+     * @param breed
+     * @param sex
+     * @param deSexed
+     * @param age
+     */
+    public Dog(String breed, String sex, boolean deSexed, int age) {
         this.sex = sex;
         this.deSexed = deSexed;
         this.age = age;

@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class AllDogs {
@@ -17,15 +18,32 @@ public class AllDogs {
      * @param dogsInDatabase - the set of dogs from the database
      * @return - a new set of dogs that match all the criteria set out by our customer
      */
-    public Set<Dog> compareDogs (Dog userDog, Set<Dog> dogsInDatabase) {
-        Set<Dog> matchedDogs = new HashSet<>();
+    // Uncomment these when I have to come back and return a set of options instead of just one dog
+//    public Set<Dog> compareDogs (Dog userDog, Set<Dog> dogsInDatabase) {
+//        Set<Dog> matchedDogs = new HashSet<>();
+
+    public Dog matchedDog (Dog userDog, Set<Dog> dogsInDatabase) {
+//        Set<Dog> matchedDogs = new HashSet<>();
 
         // TODO Fix this statement up as I dont think it does what i want it to... when shit crashes in half an hour
         // you'll find why right here.
         for (Dog dog : dogsInDatabase) {
-            if (dogsInDatabase.contains(dog)) {matchedDogs.add(dog);}
+            // Aint no way
+            if (dog.getBreed().equalsIgnoreCase(userDog.getBreed())){
+                // this is
+                if (dog.getDeSexed() == userDog.getDeSexed()) {
+                    // your
+                    if (dog.getSex().equalsIgnoreCase(userDog.getSex())) {
+                        // solution
+                        if (dog.getAge() == userDog.getAge()) {
+                            return dog;
+                        }
+                    }
+                }
+            }
         }
-        return matchedDogs;
+//        return matchedDogs;
+        return null;
     }
 
 }
