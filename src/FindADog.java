@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FindADog {
 
@@ -98,15 +100,34 @@ public class FindADog {
      */
     public Dog userDreamDog(){
         JOptionPane.showMessageDialog(null,"Welcome to adopt a pup, may I please take your order");
-        String breed = JOptionPane.showInputDialog("Wat breed of pup you lookin` for?");
 
-        String sex = JOptionPane.showInputDialog("Male of female?");
+        DogBreed dogBreed = (DogBreed) JOptionPane.showInputDialog(null,
+                "Wat breed of pup you lookin` for?", null, 3, null, DogBreed.values(),
+                DogBreed.CHIHUAHUA);
+        if (dogBreed == null) System.exit(0);
 
-        boolean deSexed = Boolean.parseBoolean(JOptionPane.showInputDialog("Desexed? true or false"));
+        // Asks user for which sex they are looking for, gives options from sex enum
+        Sex sex = (Sex) JOptionPane.showInputDialog(null, "Male or Female pup?",
+                null,3,null,Sex.values(), Sex.MALE);
+        if (sex == null) {System.exit(0);}
 
-        int age = Integer.parseInt(JOptionPane.showInputDialog("How old?"));
+        // Asks user for desexed option, gives options from the desexed enum
+        DeSexed deSexed = (DeSexed) JOptionPane.showInputDialog(null,"Desexed? yes or no",
+                null,3,null,DeSexed.values(), DeSexed.YES);
+        if (deSexed == null) {System.exit(0);}
 
-        return new Dog(breed, sex, deSexed, age);
+        int age = 0;
+        while (age == 0 ) { //|| age > 20
+            try {
+            age = Integer.parseInt(JOptionPane.showInputDialog("How old?"));
+            }
+            catch (NumberFormatException e) {
+                System.out.println(e);
+                JOptionPane.showMessageDialog(null, "Please enter a number between 1 and 20");
+            }
+        }
+
+        return new Dog(dogBreed.toString(), sex.toString(), deSexed.toBool(), age);
 
     }
 
@@ -116,8 +137,20 @@ public class FindADog {
      */
     public Person userInfo() {
         String name = JOptionPane.showInputDialog("Pleas enter your first and last name");
-        String email = JOptionPane.showInputDialog("Please enter your email address");
-        String number = JOptionPane.showInputDialog("Please enter your phone number");
+
+        // Do while loop for email input to control the users input to correct email format
+        String email;
+        do {
+            email = JOptionPane.showInputDialog("Please enter your email address");
+            if (email==null) System.exit(0);}
+        while (!isValidEmail(email));
+
+        // Do while loop for user phone number input, using regex to control the input to correct format.
+        String number;
+        do {
+            number = JOptionPane.showInputDialog("Please enter your phone number");
+            if (number==null) System.exit(0);}
+        while (!isValidPhoneNumber(number));
 
         return new Person(name, email, number);
     }
@@ -147,6 +180,30 @@ public class FindADog {
                     "SELF DESTRUCT IN 5...4...3...2...");
         }
 
+        JOptionPane.showMessageDialog(null,"Thank you!, You adoption request has been " +
+                "submitted. One of our friendly staff will be in touch shortly.");
     }
 
+    /**
+     * Takes a string input from the user in the form of their phone number and returns either true or false
+     * depending on if it matches our formatting requirements
+     * @param number String, users phone number
+     * @return boolean, either true or false
+     */
+    public static boolean isValidPhoneNumber(String number) {
+        Pattern pattern = Pattern.compile("^0\\d{9}$");
+        Matcher matcher = pattern.matcher(number);
+        return matcher.matches();
+    }
+
+    /**
+     * Check the validity of a users email input to make sure it matches our formatting
+     * @param email - String, users input
+     * @return true or false depending on the users input.
+     */
+    public static boolean isValidEmail(String email) {
+        Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9._]+\\.[A-Z]{2,6}");
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
 }

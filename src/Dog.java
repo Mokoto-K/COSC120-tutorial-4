@@ -10,6 +10,8 @@ public class Dog {
     private String sex;
     private boolean deSexed;
     private int age;
+    int max;
+    int min;
 
     /**
      * Constructor for dog objects
@@ -101,6 +103,8 @@ public class Dog {
     public void setDeSexed(boolean deSexed) {
         this.deSexed = deSexed;
     }
+
+    // TODO min max age range
 
 }
 
