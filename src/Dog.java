@@ -43,13 +43,14 @@ public class Dog {
      * @param breed
      * @param sex
      * @param deSexed
-     * @param age
+     * @param min
      */
-    public Dog(String breed, String sex, boolean deSexed, int age) {
+    public Dog(String breed, String sex, boolean deSexed, int min, int max) {
         this.sex = sex;
         this.deSexed = deSexed;
-        this.age = age;
         this.breed = breed;
+        this.min = min;
+        this.max = max;
     }
 
     /**
@@ -104,7 +105,9 @@ public class Dog {
         this.deSexed = deSexed;
     }
 
-    // TODO min max age range
+    public boolean ageRange(Dog dog) {
+        return this.getAge() <= dog.max && this.getAge() >= dog.min;
+    }
 
 }
 

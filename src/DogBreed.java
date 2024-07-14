@@ -3,7 +3,7 @@
  */
 
 public enum DogBreed {
-    DALMATIAN, LABRADOR, JACKRUSSEL, BULLDOG, PITBULL, ROTTWEILER, MAREMA, WHIPPET, GERMANSHEPARD, CHIHUAHUA,
+    DALMATIAN, LABRADOR, JACKRUSSELL, BULLDOG, PITBULL, ROTTWEILER, MAREMA, WHIPPET, GERMANSHEPARD, CHIHUAHUA,
     GOLDENRETRIEVER;
 
     /**
@@ -14,7 +14,7 @@ public enum DogBreed {
         return switch (this) {
             case DALMATIAN -> "Dammatian";
             case LABRADOR -> "Labrador";
-            case JACKRUSSEL -> "Jack Russel";
+            case JACKRUSSELL -> "Jack Russell";
             case BULLDOG -> "Bull Dog";
             case PITBULL -> "Pit Bull";
             case ROTTWEILER -> "Rottweiler";

@@ -4,9 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,17 +19,27 @@ public class FindADog {
         AllDogs ad = new AllDogs();
         // Assigning a dog call sog from the matchedDog method, passing in the users
         // requested dog and the set of dogs from the database
-        Dog sog = ad.matchedDog(fn.userDreamDog(), fn.loadAllDogs().allDogs);
+        Set<Dog> sog = ad.matchedDog(fn.userDreamDog(), fn.loadAllDogs().allDogs);
 
         // If the users dog matches a fog in the database, then they can choose to adopt
         // If they choose to adopt, they enter their details and it is output to a file
         // else I curse them.
+        StringBuilder message = new StringBuilder();
+        Map<String, Dog> dogMap = new HashMap<>();
         if (sog != null) {
-            String choice = JOptionPane.showInputDialog("Would you like to adopt " +sog.getName() +"  "
-                    + sog.getMicrochip());
-            if (choice.equalsIgnoreCase("yes")) {
+            for (Dog dog : sog) {
+                message.append(dog.getName()).append(" ").append(dog.getMicrochip()).append(" is a ").
+                        append(dog.getAge()).append(" year old ").append(dog.getSex()).append(" ").
+                        append(dog.getBreed()).append(". Desexed: ").append(dog.getDeSexed()).append("\n");
+
+                dogMap.put(dog.getName() + " "+ dog.getMicrochip(), dog);
+            }
+            String choice = (String) JOptionPane.showInputDialog(null,"Enter the name of the dog youd like to adopt\n" + message,
+                    null,3,null, dogMap.keySet().toArray(), " List of dog");
+
+            if (choice!=null) {
                 Person customer = fn.userInfo();
-                fn.addContactInfo(customer, sog);
+                fn.addContactInfo(customer, dogMap.get(choice));
             }
             else {
                 JOptionPane.showMessageDialog(null, "You're heartless, I curse you and your" +
@@ -41,6 +49,7 @@ public class FindADog {
         else {
             JOptionPane.showMessageDialog(null, "No pup matched you request");
         }
+
         // Print out and check that all dogs worked.
 //        System.out.println(fn.loadAllDogs().allDogs);
 
@@ -116,18 +125,21 @@ public class FindADog {
                 null,3,null,DeSexed.values(), DeSexed.YES);
         if (deSexed == null) {System.exit(0);}
 
-        int age = 0;
-        while (age == 0 ) { //|| age > 20
+        int min = -1;
+        int max = 20;
+        while (min < 0 && max > 19) {
             try {
-            age = Integer.parseInt(JOptionPane.showInputDialog("How old?"));
+            min = Integer.parseInt(JOptionPane.showInputDialog("Enter the minimum age for a pup between 1 and 20"));
+            max = Integer.parseInt(JOptionPane.showInputDialog("Enter the Maximum age for a pup between 1 and 20"));
             }
+
             catch (NumberFormatException e) {
                 System.out.println(e);
                 JOptionPane.showMessageDialog(null, "Please enter a number between 1 and 20");
             }
         }
 
-        return new Dog(dogBreed.toString(), sex.toString(), deSexed.toBool(), age);
+        return new Dog(dogBreed.toString(), sex.toString(), deSexed.toBool(), min, max);
 
     }
 
@@ -202,7 +214,7 @@ public class FindADog {
      * @return true or false depending on the users input.
      */
     public static boolean isValidEmail(String email) {
-        Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9._]+\\.[A-Z]{2,6}");
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9._]+\\.[a-zA-Z]{2,6}");
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
